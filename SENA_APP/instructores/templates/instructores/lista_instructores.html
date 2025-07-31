@@ -1,0 +1,106 @@
+{% extends "base.html" %} {% block title %}Lista de Instructores SENA - SENA
+APP{% endblock %} {% block content %}
+<div class="row">
+  <div class="col-12">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2>Lista de Instructores SENA</h2>
+      <div>
+        <span class="badge bg-info fs-6"
+          >Total: {{ total_instructores }} Instructores</span
+        >
+        <a
+          href="{% url 'admin:instructores_instructor_add' %}"
+          class="btn btn-success ms-2"
+        >
+          Nuevo Instructor
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row mb-3">
+  <div class="col-12">
+    <form method="GET" action="{% url 'instructores:lista_instructores' %}">
+      <div class="input-group">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Buscar instructor por nombre, documento o especialidad..."
+          name="q"
+          {#
+          Este
+          es
+          el
+          nombre
+          del
+          parámetro
+          que
+          tu
+          vista
+          leerá
+          #}
+          value="{{ request.GET.q|default_if_none:'' }}"
+          {#
+          Mantiene
+          el
+          término
+          de
+          búsqueda
+          en
+          el
+          campo
+          #}
+        />
+        <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% if lista_instructores %}
+<div class="row">
+  <div class="col-12">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead class="table-dark">
+          <tr>
+            <th>Documento</th>
+            <th>Tipo Documento</th>
+            <th>Nombre Completo</th>
+            <th>Correo</th>
+            <th>Teléfono</th>
+            <th>Ciudad</th>
+            <th>Direccion</th>
+            <th>Nivel Educativo</th>
+            <th>Fecha Nacimiento</th>
+            <th>Especialidad</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for instructor in lista_instructores %}
+          <tr>
+            <td><strong>{{ instructor.documento_identidad }}</strong></td>
+            <td>{{ instructor.tipo_documento }}</td>
+            <td>{{ instructor.nombre_completo }}</td>
+            <td>
+              <a href="mailto: {{ aprendiz.correo }}"
+                >{{ instructor.correo }}</a
+              >
+            </td>
+            <td>{{ instructor.telefono }}</td>
+            <td>{{ instructor.ciudad }}</td>
+            <td>{{ instructor.direccion }}</td>
+            <td>{{ instructor.nivel_educativo }}</td>
+            <td>{{ instructor.fecha_nacimiento|date:"d/m/Y" }}</td>
+            <td>
+              <span class="badge badge-programa"
+                >{{ instructor.especialidad }}</span
+              >
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endif %} {% endblock %}
