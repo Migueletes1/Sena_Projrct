@@ -31,10 +31,10 @@ def instructores(request):
             | Q(
                 especialidad__istartswith=query
             )  # Cambiado de __icontains a __istartswith
-        ).order_by("apellido", "nombre")
+        ).order_by("nombre")
     else:
         # Si no hay término de búsqueda, muestra todos los instructores
-        lista_instructores = Programa.objects.all().order_by("apellido", "nombre")
+        lista_instructores = Programa.objects.all().order_by("nombre")
 
     template = loader.get_template("instructores/lista_instructores.html")
     context = {

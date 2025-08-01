@@ -1,4 +1,19 @@
-{% extends 'base.html' %} {% load static %}{% block content %}
+{% extends 'base.html' %} {% load static %} {% block search %}
+
+<div class="input-group">
+  <input
+    type="text"
+    class="form-control"
+    placeholder="Buscar aprendiz por nombre o Apellido..."
+    name="q"
+    value="{{ request.GET.q|default_if_none:'' }}"
+  />
+  <div class="input-group-append">
+    <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+  </div>
+</div>
+
+{% endblock %}{% block content %}
 <h1>Lista de Aprendices</h1>
 
 <div class="table-container">

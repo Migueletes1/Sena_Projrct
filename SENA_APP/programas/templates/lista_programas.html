@@ -1,5 +1,20 @@
 {% extends "base.html" %} {% block title %}Lista de Programas SENA - SENA
-APP{%endblock %} {% block content %}
+APP{%endblock %}{% block search %}
+
+<div class="input-group">
+  <input
+    type="text"
+    class="form-control"
+    placeholder="Buscar Programa por nombre, codigo o especialidad..."
+    name="q"
+    value="{{ request.GET.q|default_if_none:'' }}"
+  />
+  <div class="input-group-append">
+    <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+  </div>
+</div>
+
+{% endblock %} {% block content %}
 <div class="header">
   <h1>Lista de Programas de Formación</h1>
   <p>Total de programas: <strong>{{ total_programas }}</strong></p>
