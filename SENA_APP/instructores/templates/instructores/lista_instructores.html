@@ -1,5 +1,20 @@
 {% extends "base.html" %} {% block title %}Lista de Instructores SENA - SENA
-APP{% endblock %} {% block content %}
+APP{% endblock %} {% block search %}
+
+<div class="input-group">
+  <input
+    type="text"
+    class="form-control"
+    placeholder="Buscar instructor por nombre, documento o especialidad..."
+    name="q"
+    value="{{ request.GET.q|default_if_none:'' }}"
+  />
+  <div class="input-group-append">
+    <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+  </div>
+</div>
+
+{% endblock %}{% block content %}
 <div class="row">
   <div class="col-12">
     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -18,44 +33,7 @@ APP{% endblock %} {% block content %}
     </div>
   </div>
 </div>
-<div class="row mb-3">
-  <div class="col-12">
-    <form method="GET" action="{% url 'instructores:lista_instructores' %}">
-      <div class="input-group">
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Buscar instructor por nombre, documento o especialidad..."
-          name="q"
-          {#
-          Este
-          es
-          el
-          nombre
-          del
-          parámetro
-          que
-          tu
-          vista
-          leerá
-          #}
-          value="{{ request.GET.q|default_if_none:'' }}"
-          {#
-          Mantiene
-          el
-          término
-          de
-          búsqueda
-          en
-          el
-          campo
-          #}
-        />
-        <button class="btn btn-outline-secondary" type="submit">Buscar</button>
-      </div>
-    </form>
-  </div>
-</div>
+
 {% if lista_instructores %}
 <div class="row">
   <div class="col-12">
