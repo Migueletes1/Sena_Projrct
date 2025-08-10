@@ -1,0 +1,59 @@
+{% extends "base.html" %} {% block title %}Lista de Programas SENA - SENA
+APP{%endblock %}{% block search %}
+
+<div class="input-group">
+  <input
+    type="text"
+    class="form-control"
+    placeholder="Buscar Programa por nombre, codigo o especialidad..."
+    name="q"
+    value="{{ request.GET.q|default_if_none:'' }}"
+  />
+  <div class="input-group-append">
+    <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+  </div>
+</div>
+
+{% endblock %} {% block content %}
+<div class="header">
+  <h1>Lista de Programas de Formación</h1>
+  <p>Total de programas: <strong>{{ total_programas }}</strong></p>
+</div>
+
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th>Código</th>
+      <th>Nombre</th>
+      <th>Nivel Formación</th>
+      <th>Modalidad</th>
+      <th>Duración (Meses)</th>
+      <th>Estado</th>
+      <th>Descripción</th>
+      <th>Centro Formación</th>
+      <th>Regional</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for programa in lista_programas %}
+    <tr>
+      <td><strong>{{ programa.codigo }}</strong></td>
+      <td>{{ programa.nombre }}</td>
+      <td>{{ programa.get_nivel_formacion_display }}</td>
+      <td>{{ programa.get_modalidad_display }}</td>
+      <td>{{ programa.duracion_meses }}</td>
+      <td>{{ programa.get_estado_display }}</td>
+      <td>{{ programa.descripcion|truncatewords:10 }}</td>
+      <td>{{ programa.centro_formacion }}</td>
+      <td>{{ programa.regional }}</td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="9" style="text-align: center; color: #666">
+        No hay programas registrados
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

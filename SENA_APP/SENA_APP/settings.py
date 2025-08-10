@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "aprendices",
     "instructores",
+    "programas",
 ]
 
 MIDDLEWARE = [
@@ -102,7 +103,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [
-    BASE_DIR / "mi_app" / "static"
+    BASE_DIR / "aprendices" / "static"
 ]  # Si estás usando app con archivos fuera de "staticfiles"
 
 
