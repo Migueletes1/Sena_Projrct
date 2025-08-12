@@ -4,6 +4,8 @@ from django.template import loader
 from django.shortcuts import render
 from django.db.models import Q
 from .models import Instructor
+from django.shortcuts import render, get_object_or_404
+
 
 
 def instructores(request):
@@ -32,15 +34,17 @@ def instructores(request):
         "total_instructores": lista_instructores.count(),
     }
     return HttpResponse(template.render(context, request))
+def detalle_instructor(request, instructor_id):
+    instructor = get_object_or_404(Instructor, id=instructor_id)
+    cursos_coordinados = instructor.cursos_coordinados.all()
+    cursos_impartidos = instructor.cursos_impartidos.all()
+    template = loader.get_template('instructores/detalle_instructor.html')
 
-
-def inicio(request):
-    """Vista de inicio para instructores"""
-    total_instructores = Instructor.objects.count()
-    instructores_recientes = Instructor.objects.order_by("-fecha_registro")[:5]
-
+    
     context = {
-        "total_instructores": total_instructores,
-        "instructores_recientes": instructores_recientes,
+        'instructor': instructor,
+        'cursos_coordinados': cursos_coordinados,
+        'cursos_impartidos': cursos_impartidos,
     }
-    return render(request, "instructores/inicio.html", context)
+    
+    return HttpResponse(template.render(context, request))

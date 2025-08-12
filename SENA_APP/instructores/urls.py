@@ -1,13 +1,9 @@
-# instructores/urls.py
 from django.urls import path
 from . import views
 
-app_name = "instructores"  # Necesario para el namespace en las URLs
+app_name = 'instructores'
 
 urlpatterns = [
-    path(
-        "", views.instructores, name="lista_instructores"
-    ),  # Asegúrate de que esta línea exista
-    path("inicio/", views.inicio, name="inicio"),
-    # ... otras rutas si las tienes
+    path('', views.instructores, name='lista_instructores'),
+    path('instructor/<int:instructor_id>/', views.detalle_instructor, name='detalle_instructor'),
 ]

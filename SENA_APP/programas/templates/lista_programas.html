@@ -37,7 +37,7 @@ APP{%endblock %}{% block search %}
   <tbody>
     {% for programa in lista_programas %}
     <tr>
-      <td><strong>{{ programa.codigo }}</strong></td>
+      <td><strong><a href ="programa/{{ programa.id }}">{{ programa.codigo}}</a></strong></td>
       <td>{{ programa.nombre }}</td>
       <td>{{ programa.get_nivel_formacion_display }}</td>
       <td>{{ programa.get_modalidad_display }}</td>

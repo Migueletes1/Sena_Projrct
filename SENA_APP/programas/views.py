@@ -3,7 +3,7 @@ from django.template import loader
 from django.shortcuts import render
 from django.db.models import Q
 from .models import Programa
-
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 def programas(request):
@@ -44,13 +44,14 @@ def instructores(request):
     return HttpResponse(template.render(context, request))
 
 
-def inicio(request):
-    """Vista de inicio para instructores"""
-    total_instructores = Programa.objects.count()
-    instructores_recientes = Programa.objects.order_by("-fecha_registro")[:5]
-
+def detalle_programa(request, programa_id):
+    programa = get_object_or_404(Programa, id=programa_id)
+    cursos = programa.curso_set.all().order_by('-fecha_inicio')
+    template = loader.get_template('detalle_programa.html')
+    
     context = {
-        "total_instructores": total_instructores,
-        "instructores_recientes": instructores_recientes,
+        'programa': programa,
+        'cursos': cursos,
     }
-    return render(request, "instructores/inicio.html", context)
+    
+    return HttpResponse(template.render(context, request))
