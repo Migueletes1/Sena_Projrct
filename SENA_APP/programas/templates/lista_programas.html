@@ -18,6 +18,9 @@ APP{%endblock %}{% block search %}
 <div class="header">
   <h1>Lista de Programas de Formación</h1>
   <p>Total de programas: <strong>{{ total_programas }}</strong></p>
+  <a href="{% url 'programas:agregar_programa' %}" class="btn btn-success ms-2">
+    Nuevo Programa
+  </a>
 </div>
 
 <table class="table table-striped table-hover">
@@ -37,7 +40,11 @@ APP{%endblock %}{% block search %}
   <tbody>
     {% for programa in lista_programas %}
     <tr>
-      <td><strong><a href ="programa/{{ programa.id }}">{{ programa.codigo}}</a></strong></td>
+      <td>
+        <strong
+          ><a href="programa/{{ programa.id }}">{{ programa.codigo}}</a></strong
+        >
+      </td>
       <td>{{ programa.nombre }}</td>
       <td>{{ programa.get_nivel_formacion_display }}</td>
       <td>{{ programa.get_modalidad_display }}</td>

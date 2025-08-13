@@ -5,7 +5,9 @@ from django.shortcuts import render
 from django.db.models import Q
 from .models import Instructor
 from django.shortcuts import render, get_object_or_404
-
+from .forms import InstructorForm
+from django.urls import reverse_lazy
+from django.views import generic
 
 
 def instructores(request):
@@ -36,8 +38,10 @@ def instructores(request):
     return HttpResponse(template.render(context, request))
 def detalle_instructor(request, instructor_id):
     instructor = get_object_or_404(Instructor, id=instructor_id)
-    cursos_coordinados = instructor.cursos_coordinados.all()
-    cursos_impartidos = instructor.cursos_impartidos.all()
+    # Use the correct related manager for cursos coordinados; replace 'curso_set' if you have a related_name set in your Curso model for coordinador
+    cursos_coordinados = instructor.curso_set.all()  # Replace 'curso_set' with the actual related_name if set in your Curso model for coordinador
+    # Use the correct related name for cursos impartidos
+    cursos_impartidos = instructor.curso_set.all()  # Replace 'curso_set' with the actual related_name if set in your Curso model
     template = loader.get_template('instructores/detalle_instructor.html')
 
     
@@ -48,3 +52,8 @@ def detalle_instructor(request, instructor_id):
     }
     
     return HttpResponse(template.render(context, request))
+class InstructorCreateView(generic.CreateView):
+    model = Instructor
+    form_class = InstructorForm
+    template_name = 'instructores/agregar_instructor.html'
+    success_url = reverse_lazy('instructores:lista_instructores')

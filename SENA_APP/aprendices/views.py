@@ -4,6 +4,9 @@ from .models import Aprendiz, Curso
 from django.shortcuts import get_object_or_404
 from instructores.models import Instructor
 from programas.models import Programa
+from aprendices.forms import AprendizForm
+from django.views import generic
+from django.urls import reverse_lazy
 
 # Create your views here.
 
@@ -51,8 +54,9 @@ def lista_cursos(request):
 
 def detalle_curso(request, curso_id):
     curso = get_object_or_404(Curso, id=curso_id)
-    aprendices_curso = curso.aprendizcurso_set.all()
-    instructores_curso = curso.instructorcurso_set.all()
+    aprendices_curso = curso.aprendices.all() if hasattr(curso, 'aprendices') else []
+    # Replace 'instructorcurso_set' with the correct related name or query
+    instructores_curso = curso.instructores.all() if hasattr(curso, 'instructores') else []
     template = loader.get_template('detalle_curso.html')
     
     context = {
@@ -72,3 +76,14 @@ def detalle_aprendiz(request, aprendiz_id):
     }
     
     return HttpResponse(template.render(context, request))
+
+
+
+class AprendizFormView(generic.FormView):
+    template_name = 'agregar_aprendiz.html'  # usar tu template correcto
+    form_class = AprendizForm
+    success_url = reverse_lazy('aprendices:lista_aprendices')  # redirigir tras guardar
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)

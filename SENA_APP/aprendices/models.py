@@ -103,6 +103,3 @@ class AprendizCurso(models.Model):
 
     def __str__(self):
         return f"{self.aprendiz} - {self.curso} ({self.estado})"
-
-
-# Create your models here.

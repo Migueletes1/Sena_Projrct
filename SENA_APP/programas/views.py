@@ -4,6 +4,10 @@ from django.shortcuts import render
 from django.db.models import Q
 from .models import Programa
 from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy
+from django.views import generic
+from .models import Programa
+from .forms import ProgramaForm
 
 # Create your views here.
 def programas(request):
@@ -55,3 +59,10 @@ def detalle_programa(request, programa_id):
     }
     
     return HttpResponse(template.render(context, request))
+
+
+class ProgramaCreateView(generic.CreateView):
+    model = Programa
+    form_class = ProgramaForm
+    template_name = 'agregar_programa.html'
+    success_url = reverse_lazy('programas:lista_programas')
