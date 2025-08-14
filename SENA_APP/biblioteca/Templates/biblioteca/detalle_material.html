@@ -1,0 +1,27 @@
+{% extends "base.html" %} {% block title %} Detalle de {{ material.nombre
+}}{%endblock %} {% block content %}
+<div class="container mt-4">
+  <h2>{{ material.nombre }}</h2>
+  <p><strong>Descripción:</strong> {{ material.descripcion }}</p>
+  <p><strong>Tipo:</strong> {{ material.tipo_recurso }}</p>
+  <p><strong>Programa:</strong> {{ material.programa.nombre }}</p>
+  {% if material.curso %}
+  <p><strong>Curso:</strong> {{ material.curso.nombre }}</p>
+  {% endif %}
+  <p>
+    <strong>Instructor:</strong> {{ material.instructor.nombre }} {{
+    material.instructor.apellido }}
+  </p>
+  <p>
+    <strong>Fecha subida:</strong> {{ material.fecha_subida|date:"d/m/Y H:i" }}
+  </p>
+  <p><strong>Palabras clave:</strong> {{ material.palabras_clave }}</p>
+
+  <a href="{{ material.archivo_url }}" class="btn btn-success" download
+    >📥 Descargar material</a
+  >
+  <a href="{% url 'biblioteca:lista_materiales' %}" class="btn btn-secondary"
+    >⬅ Volver a la lista</a
+  >
+</div>
+{% endblock %}
