@@ -17,9 +17,10 @@
   </p>
   <p><strong>Palabras clave:</strong> {{ material.palabras_clave }}</p>
 
-  <a href="{{ material.archivo_url }}" class="btn btn-success" download
-    >📥 Descargar material</a
+  <a href="{{ mat.archivo.url }}" class="btn btn-success btn-sm" download
+    >📥 Descargar</a
   >
+
   <a href="{% url 'biblioteca:lista_materiales' %}" class="btn btn-secondary"
     >⬅ Volver a la lista</a
   >

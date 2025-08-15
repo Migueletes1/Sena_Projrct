@@ -6,7 +6,6 @@
 <div class="container mt-4">
     <h2 class="mb-4">📚 Biblioteca de Materiales</h2>
 
-
     <!-- Formulario de búsqueda -->
     <form method="get" class="mb-3">
         <div class="input-group">
@@ -26,12 +25,11 @@
             {% endfor %}
         </select>
     </form>
-                <a
-          href="{% url 'biblioteca:agregar_material' %}"
-          class="btn btn-success ms-2"
-        >
-         Agregar nuevo material
-        </a>
+
+    <!-- Botón agregar material -->
+    <a href="{% url 'biblioteca:agregar_material' %}" class="btn btn-success ms-2 mb-3">
+        ➕ Agregar nuevo material
+    </a>
 
     <!-- Tabla de materiales -->
     <table class="table table-striped table-bordered">
@@ -55,10 +53,20 @@
                     <td>{{ mat.programa.nombre }}</td>
                     <td>{{ mat.instructor.nombre }} {{ mat.instructor.apellido }}</td>
                     <td>{{ mat.fecha_subida|date:"d/m/Y H:i" }}</td>
-                    <td>
-                        <a href="{{ mat.archivo_url }}" class="btn btn-success btn-sm" download>📥 Descargar</a>
-                        <a href="{% url 'biblioteca:detalle_material' mat.id %}" class="btn btn-info btn-sm">🔍 Ver</a>
+                    <td class="text-center">
+                        {% if mat.archivo %}
+                            <a href="{{ mat.archivo.url }}" class="btn btn-success btn-sm w-100 mb-1" download>
+                                📥 Descargar
+                            </a>
+                        {% else %}
+                            <button class="btn btn-secondary btn-sm w-100 mb-1" disabled>
+                                Sin archivo
+                            </button>
+                        {% endif %}
 
+                        <a href="{% url 'biblioteca:detalle_material' mat.id %}" class="btn btn-info btn-sm w-100">
+                            🔍 Ver
+                        </a>
                     </td>
                 </tr>
             {% empty %}

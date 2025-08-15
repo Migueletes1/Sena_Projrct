@@ -40,6 +40,7 @@ def detalle_material(request, pk):
 def agregar_material(request):
     if request.method == "POST":
         form = MaterialForm(request.POST)
+        form = MaterialForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect(

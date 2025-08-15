@@ -22,11 +22,8 @@
       {% endif %}
     </div>
     {% endfor %}
-    <form method="post" enctype="multipart/form-data">
-      {% csrf_token %} {{ form.as_p }}
-      <button type="submit">Guardar</button>
-    </form>
 
+    <button type="submit" class="btn btn-success">Guardar</button>
     <a href="{% url 'biblioteca:lista_materiales' %}" class="btn btn-secondary"
       >Cancelar</a
     >
