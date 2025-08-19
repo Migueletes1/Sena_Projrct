@@ -23,6 +23,12 @@
     <a href="{{ material.archivo.url }}" class="btn btn-success" download
       >📥 Descargar</a
     >
+    <a
+      href="{% url 'admin:biblioteca_material_change' material.id %}"
+      class="btn btn-info"
+    >
+      ✏️ Editar</a
+    >
   </p>
 
   <!-- Vista previa -->

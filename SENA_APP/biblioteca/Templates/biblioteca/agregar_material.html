@@ -1,32 +1,269 @@
 {% extends "base.html" %} {% load static %} {% block content %}
 <div class="container mt-4">
-  <h2 class="mb-4">Agregar nuevo material</h2>
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <!-- Encabezado del formulario -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-success text-white">
+          <h3 class="card-title mb-0">
+            <i class="fas fa-plus-circle me-2"></i>
+            Agregar Nuevo Material
+          </h3>
+        </div>
 
-  <form method="post" enctype="multipart/form-data" class="card p-4 shadow-sm">
-    {% csrf_token %} {% if form.errors %}
-    <div class="alert alert-danger">
-      <strong>Corrige los errores:</strong>
-      <ul>
-        {% for field in form %} {% for error in field.errors %}
-        <li><strong>{{ field.label }}:</strong> {{ error }}</li>
-        {% endfor %} {% endfor %} {% for error in form.non_field_errors %}
-        <li>{{ error }}</li>
-        {% endfor %}
-      </ul>
-    </div>
-    {% endif %} {% for field in form %}
-    <div class="mb-3">
-      <label class="form-label">{{ field.label }}</label>
-      {{ field }} {% if field.help_text %}
-      <div class="form-text">{{ field.help_text }}</div>
-      {% endif %}
-    </div>
-    {% endfor %}
+        <div class="card-body">
+          <!-- Mostrar errores si existen -->
+          {% if form.errors %}
+          <div
+            class="alert alert-danger alert-dismissible fade show"
+            role="alert"
+          >
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            <strong>Por favor corrige los siguientes errores:</strong>
+            <ul class="mb-0 mt-2">
+              {% for field in form %} {% for error in field.errors %}
+              <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+              {% endfor %} {% endfor %} {% for error in form.non_field_errors %}
+              <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="alert"
+            ></button>
+          </div>
+          {% endif %}
 
-    <button type="submit" class="btn btn-success">Guardar</button>
-    <a href="{% url 'biblioteca:lista_materiales' %}" class="btn btn-secondary"
-      >Cancelar</a
-    >
-  </form>
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- Sección: Información Básica -->
+            <div class="mb-4">
+              <h5 class="text-primary border-bottom pb-2 mb-3">
+                <i class="fas fa-info-circle me-2"></i>
+                Información Básica
+              </h5>
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label
+                    for="{{ form.nombre.id_for_label }}"
+                    class="form-label fw-bold"
+                  >
+                    <i class="fas fa-file-alt me-1"></i>
+                    {{ form.nombre.label }}
+                    <span class="text-danger">*</span>
+                  </label>
+                  {{ form.nombre }} {% if form.nombre.help_text %}
+                  <div class="form-text">{{ form.nombre.help_text }}</div>
+                  {% endif %}
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label
+                    for="{{ form.tipo.id_for_label }}"
+                    class="form-label fw-bold"
+                  >
+                    <i class="fas fa-tags me-1"></i>
+                    {{ form.tipo.label }}
+                    <span class="text-danger">*</span>
+                  </label>
+                  {{ form.tipo }} {% if form.tipo.help_text %}
+                  <div class="form-text">{{ form.tipo.help_text }}</div>
+                  {% endif %}
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label
+                  for="{{ form.descripcion.id_for_label }}"
+                  class="form-label fw-bold"
+                >
+                  <i class="fas fa-align-left me-1"></i>
+                  {{ form.descripcion.label }}
+                </label>
+                {{ form.descripcion }} {% if form.descripcion.help_text %}
+                <div class="form-text">{{ form.descripcion.help_text }}</div>
+                {% endif %}
+              </div>
+
+              <div class="mb-3">
+                <label
+                  for="{{ form.palabras_clave.id_for_label }}"
+                  class="form-label fw-bold"
+                >
+                  <i class="fas fa-hashtag me-1"></i>
+                  {{ form.palabras_clave.label }}
+                </label>
+                {{ form.palabras_clave }} {% if form.palabras_clave.help_text %}
+                <div class="form-text">{{ form.palabras_clave.help_text }}</div>
+                {% else %}
+                <div class="form-text">
+                  Separa las palabras clave con comas (ej: matemáticas, álgebra,
+                  ejercicios)
+                </div>
+                {% endif %}
+              </div>
+            </div>
+
+            <!-- Sección: Información Académica -->
+            <div class="mb-4">
+              <h5 class="text-primary border-bottom pb-2 mb-3">
+                <i class="fas fa-graduation-cap me-2"></i>
+                Información Académica
+              </h5>
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label
+                    for="{{ form.programa.id_for_label }}"
+                    class="form-label fw-bold"
+                  >
+                    <i class="fas fa-book me-1"></i>
+                    {{ form.programa.label }}
+                    <span class="text-danger">*</span>
+                  </label>
+                  {{ form.programa }} {% if form.programa.help_text %}
+                  <div class="form-text">{{ form.programa.help_text }}</div>
+                  {% endif %}
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label
+                    for="{{ form.instructor.id_for_label }}"
+                    class="form-label fw-bold"
+                  >
+                    <i class="fas fa-user-tie me-1"></i>
+                    {{ form.instructor.label }}
+                    <span class="text-danger">*</span>
+                  </label>
+                  {{ form.instructor }} {% if form.instructor.help_text %}
+                  <div class="form-text">{{ form.instructor.help_text }}</div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+
+            <!-- Sección: Archivo -->
+            <div class="mb-4">
+              <h5 class="text-primary border-bottom pb-2 mb-3">
+                <i class="fas fa-cloud-upload-alt me-2"></i>
+                Archivo del Material
+              </h5>
+
+              <div class="mb-3">
+                <label
+                  for="{{ form.archivo.id_for_label }}"
+                  class="form-label fw-bold"
+                >
+                  <i class="fas fa-paperclip me-1"></i>
+                  {{ form.archivo.label }}
+                </label>
+                <div class="input-group">{{ form.archivo }}</div>
+                {% if form.archivo.help_text %}
+                <div class="form-text">{{ form.archivo.help_text }}</div>
+                {% else %}
+                <div class="form-text">
+                  <i class="fas fa-info-circle me-1"></i>
+                  Formatos permitidos: PDF, DOC, DOCX, PPT, PPTX (Máximo 10MB)
+                </div>
+                {% endif %}
+              </div>
+            </div>
+
+            <!-- Botones de acción -->
+            <div
+              class="d-flex justify-content-between align-items-center pt-3 border-top"
+            >
+              <div class="text-muted">
+                <small
+                  ><span class="text-danger">*</span> Campos obligatorios</small
+                >
+              </div>
+
+              <div class="btn-group gap-2">
+                <a
+                  href="{% url 'biblioteca:lista_materiales' %}"
+                  class="btn btn-outline-secondary"
+                >
+                  <i class="fas fa-times me-1"></i>
+                  Cancelar
+                </a>
+                <button type="submit" class="btn btn-success">
+                  <i class="fas fa-save me-1"></i>
+                  Guardar Material
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+<style>
+  /* Estilos personalizados para mejorar la apariencia */
+  .form-control,
+  .form-select {
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    transition: all 0.3s ease;
+  }
+
+  .form-control:focus,
+  .form-select:focus {
+    border-color: #28a745;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+  }
+
+  .card {
+    border-radius: 12px;
+    border: none;
+  }
+
+  .card-header {
+    border-radius: 12px 12px 0 0 !important;
+  }
+
+  .btn {
+    border-radius: 8px;
+    padding: 8px 20px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+
+  .btn-success:hover {
+    background-color: #218838;
+    transform: translateY(-1px);
+  }
+
+  .btn-outline-secondary:hover {
+    transform: translateY(-1px);
+  }
+
+  .text-primary {
+    color: #28a745 !important;
+  }
+
+  .border-bottom {
+    border-color: #e9ecef !important;
+  }
+
+  .alert {
+    border-radius: 8px;
+  }
+
+  /* Mejoras para el input de archivo */
+  input[type="file"] {
+    padding: 8px;
+  }
+
+  /* Espaciado mejorado */
+  .gap-2 > * + * {
+    margin-left: 0.5rem;
+  }
+</style>
+
 {% endblock %}
