@@ -38,8 +38,6 @@ def inicio(request):
     }
     
     return HttpResponse(template.render(context, request))
-
-
 def lista_cursos(request):
     cursos = Curso.objects.all().order_by('-fecha_inicio')
     template = loader.get_template('lista_cursos.html')

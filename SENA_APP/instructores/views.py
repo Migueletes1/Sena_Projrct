@@ -19,17 +19,12 @@ def instructores(request):
         lista_instructores = Instructor.objects.filter(
             Q(nombre__istartswith=query)  # Cambiado de __icontains a __istartswith
             | Q(apellido__istartswith=query)  # Cambiado de __icontains a __istartswith
-            | Q(
-                documento_identidad__istartswith=query
-            )  # Cambiado de __icontains a __istartswith
-            | Q(
-                especialidad__istartswith=query
-            )  # Cambiado de __icontains a __istartswith
-        ).order_by("apellido", "nombre")
+            | Q(documento_identidad__istartswith=query)  # Cambiado de __icontains a __istartswith
+            | Q(especialidad__istartswith=query)  # Cambiado de __icontains a __istartswith
+).order_by("apellido", "nombre")
     else:
         # Si no hay término de búsqueda, muestra todos los instructores
         lista_instructores = Instructor.objects.all().order_by("apellido", "nombre")
-
     template = loader.get_template("instructores/lista_instructores.html")
     context = {
         "lista_instructores": lista_instructores,
@@ -38,19 +33,15 @@ def instructores(request):
     return HttpResponse(template.render(context, request))
 def detalle_instructor(request, instructor_id):
     instructor = get_object_or_404(Instructor, id=instructor_id)
-    # Use the correct related manager for cursos coordinados; replace 'curso_set' if you have a related_name set in your Curso model for coordinador
-    cursos_coordinados = instructor.curso_set.all()  # Replace 'curso_set' with the actual related_name if set in your Curso model for coordinador
-    # Use the correct related name for cursos impartidos
-    cursos_impartidos = instructor.curso_set.all()  # Replace 'curso_set' with the actual related_name if set in your Curso model
+    # Use the correct variable name 'instructor' instead of 'instructores'
+    cursos_coordinados = instructor.cursos_coordinados.all()
+    cursos_impartidos = instructor.cursos_impartidos.all()
     template = loader.get_template('instructores/detalle_instructor.html')
-
-    
     context = {
         'instructor': instructor,
         'cursos_coordinados': cursos_coordinados,
         'cursos_impartidos': cursos_impartidos,
     }
-    
     return HttpResponse(template.render(context, request))
 class InstructorCreateView(generic.CreateView):
     model = Instructor
