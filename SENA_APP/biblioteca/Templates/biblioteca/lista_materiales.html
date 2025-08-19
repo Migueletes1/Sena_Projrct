@@ -64,8 +64,11 @@
                             </button>
                         {% endif %}
 
-                        <a href="{% url 'biblioteca:detalle_material' mat.id %}" class="btn btn-info btn-sm w-100">
+                        <a href="{% url 'biblioteca:detalle_material' mat.id %}" class="btn btn-info btn-sm w-100 mb-1">
                             🔍 Ver
+                        </a>
+                        <a href="{% url 'admin:biblioteca_material_change' mat.id %}" class="btn btn-info btn-sm w-100">
+                            ✏️ Editar
                         </a>
                     </td>
                 </tr>
