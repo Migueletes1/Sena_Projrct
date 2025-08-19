@@ -1,9 +1,9 @@
-{% extends "base.html" %} {% block title %} Detalle de {{ material.nombre
-}}{%endblock %} {% block content %}
+{% extends "base.html" %} {% block title %}Detalle de
+{{material.nombre}}{%endblock %} {% block content %}
 <div class="container mt-4">
   <h2>{{ material.nombre }}</h2>
   <p><strong>Descripción:</strong> {{ material.descripcion }}</p>
-  <p><strong>Tipo:</strong> {{ material.tipo}}</p>
+  <p><strong>Tipo:</strong> {{ material.tipo }}</p>
   <p><strong>Programa:</strong> {{ material.programa.nombre }}</p>
   {% if material.curso %}
   <p><strong>Curso:</strong> {{ material.curso.nombre }}</p>
@@ -16,15 +16,58 @@
     <strong>Fecha subida:</strong> {{ material.fecha_subida|date:"d/m/Y H:i" }}
   </p>
   <p><strong>Palabras clave:</strong> {{ material.palabras_clave }}</p>
-  <a href="{% url 'biblioteca:lista_materiales' %}" class="btn btn-secondary"
+
+  <h4 class="mt-4">📂 Archivo</h4>
+  {% if material.archivo %}
+  <p>
+    <a href="{{ material.archivo.url }}" class="btn btn-success" download
+      >📥 Descargar</a
+    >
+  </p>
+
+  <!-- Vista previa -->
+  {% if material.archivo.url|lower|slice:"-4:" == ".pdf" %}
+  <iframe src="{{ material.archivo.url }}" width="100%" height="600px"></iframe>
+
+  {% elif material.archivo.url|lower|slice:"-4:" == ".png" %}
+  <img
+    src="{{ material.archivo.url }}"
+    alt="Vista previa"
+    class="img-fluid rounded shadow"
+  />
+
+  {% elif material.archivo.url|lower|slice:"-4:" == ".jpg" %}
+  <img
+    src="{{ material.archivo.url }}"
+    alt="Vista previa"
+    class="img-fluid rounded shadow"
+  />
+
+  {% elif material.archivo.url|lower|slice:"-5:" == ".jpeg" %}
+  <img
+    src="{{ material.archivo.url }}"
+    alt="Vista previa"
+    class="img-fluid rounded shadow"
+  />
+
+  {% elif material.archivo.url|lower|slice:"-4:" == ".mp4" %}
+  <video controls width="100%" class="rounded shadow">
+    <source src="{{ material.archivo.url }}" type="video/mp4" />
+    Tu navegador no soporta la reproducción de video.
+  </video>
+
+  {% else %}
+  <p class="text-muted">
+    ⚠️ No hay vista previa disponible para este tipo de archivo.
+  </p>
+  {% endif %} {% else %}
+  <p class="text-muted">⚠️ Este material no tiene archivo asociado.</p>
+  {% endif %}
+
+  <a
+    href="{% url 'biblioteca:lista_materiales' %}"
+    class="btn btn-secondary mt-3"
     >⬅ Volver a la lista</a
   >
-  {% if material.archivo %}
-  <a href="{{ material.archivo.url }}" class="btn btn-success btn-sm" download>
-    📥 Descargar
-  </a>
-  {% else %}
-  <button class="btn btn-secondary" disabled>Sin archivo</button>
-  {% endif %}
 </div>
 {% endblock %}

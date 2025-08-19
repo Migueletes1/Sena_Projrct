@@ -32,9 +32,19 @@ def lista_materiales(request):
     )
 
 
+from django.shortcuts import get_object_or_404, render
+
 def detalle_material(request, pk):
     material = get_object_or_404(Material, pk=pk)
-    return render(request, "biblioteca/detalle_material.html", {"material": material})
+    archivo_url = None
+    if material.archivo:
+        archivo_url = request.build_absolute_uri(material.archivo.url)  # Aquí sí funciona
+
+    return render(request, "biblioteca/detalle_material.html", {
+        "material": material,
+        "archivo_url": archivo_url
+    })
+
 
 
 def agregar_material(request):
