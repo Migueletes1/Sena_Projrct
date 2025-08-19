@@ -9,20 +9,22 @@
   <p><strong>Curso:</strong> {{ material.curso.nombre }}</p>
   {% endif %}
   <p>
-    <strong>Instructor:</strong> {{ material.instructor.nombre }} {{
-    material.instructor.apellido }}
+    <strong>Instructor:</strong> {{ material.instructor.nombre }}
+    {{material.instructor.apellido }}
   </p>
   <p>
     <strong>Fecha subida:</strong> {{ material.fecha_subida|date:"d/m/Y H:i" }}
   </p>
   <p><strong>Palabras clave:</strong> {{ material.palabras_clave }}</p>
-
-  <a href="{{ mat.archivo.url }}" class="btn btn-success btn-sm" download
-    >📥 Descargar</a
-  >
-
   <a href="{% url 'biblioteca:lista_materiales' %}" class="btn btn-secondary"
     >⬅ Volver a la lista</a
   >
+  {% if material.archivo %}
+  <a href="{{ material.archivo.url }}" class="btn btn-success btn-sm" download>
+    📥 Descargar
+  </a>
+  {% else %}
+  <button class="btn btn-secondary" disabled>Sin archivo</button>
+  {% endif %}
 </div>
 {% endblock %}
