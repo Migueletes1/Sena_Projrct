@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 
 {% block title %}Biblioteca - Materiales{% endblock %}
@@ -49,7 +50,14 @@
                 <tr>
                     <td>{{ mat.nombre }}</td>
                     <td>{{ mat.descripcion|truncatewords:15 }}</td>
-                    <td>{{ mat.tipo}}</td>
+                    <td>{% if mat.tipo == "PDF" %}
+        <i class="fas fa-file-pdf text-danger"></i> PDF
+    {% elif mat.tipo == "Imagen" %}
+        <i class="fas fa-file-image text-primary"></i> Imagen
+    {% else %}
+        <i class="fas fa-file text-secondary"></i> Otro
+    {% endif %}
+</td>
                     <td>{{ mat.programa.nombre }}</td>
                     <td>{{ mat.instructor.nombre }} {{ mat.instructor.apellido }}</td>
                     <td>{{ mat.fecha_subida|date:"d/m/Y H:i" }}</td>

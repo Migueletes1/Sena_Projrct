@@ -1,6 +1,6 @@
 from django.db import models
 from programas.models import Programa
-from instructores.models import Instructor  # <-- IMPORTANTE
+from instructores.models import Instructor
 
 
 class Material(models.Model):
@@ -24,6 +24,6 @@ class Material(models.Model):
         Instructor, on_delete=models.SET_NULL, null=True, blank=True
     )
     archivo = models.FileField(upload_to="materiales/", null=True, blank=True)
-
-    def __str__(self):
-        return self.nombre
+    help_text = {
+        "archivo": "Sube un archivo en formato PDF, DOCX, o PPT",
+    }
